@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -28,6 +27,12 @@
             text-align: center;
             color: #B22222;
         }
+        #contador {
+            font-size: 1.2em;
+            color: #B22222;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -36,14 +41,44 @@
         <h1>Yago & Emily</h1>
         <p><strong>Início:</strong> 21/02/2025</p>
         <p>
-        Emily, <br><br>
-        Desde que nos conhecemos, minha vida mudou de uma forma que eu jamais imaginaria. Seu sorriso, seu olhar, seu jeito... tudo em você me encanta. <br><br>
-        A cada dia ao seu lado, descubro novas razões para te amar. Nosso começo foi especial, e a cada lembrança guardo com carinho tudo que vivemos. <br><br>
-        Obrigado por ser quem você é. Por me apoiar, por me fazer rir e por me mostrar o verdadeiro significado do amor. <br><br>
-        Que venham muitos e muitos dias ao seu lado. <br><br>
-        Com amor, <br>
-        Yago 💖
+            Emily, <br><br>
+            Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em Como Eu Era Antes de Você.
+            Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.
+            Tem gente que passa. Você ficou. E se a vida fosse um livro, com certeza você seria minha parte favorita. <br>
         </p>
+
+        <div id="contador"></div>
     </div>
+
+    <script>
+      // Define a data inicial (21 de fevereiro de 2025)
+      const dataInicial = new Date('2025-02-21T00:00:00');
+
+      function atualizarContador() {
+        const agora = new Date();
+        let diff = agora - dataInicial; // diferença em milissegundos
+
+        if (diff < 0) {
+          document.getElementById('contador').textContent = "A data inicial ainda não chegou!";
+          return;
+        }
+
+        // Calcula dias, horas, minutos e segundos
+        const segundos = Math.floor(diff / 1000) % 60;
+        const minutos = Math.floor(diff / (1000 * 60)) % 60;
+        const horas = Math.floor(diff / (1000 * 60 * 60)) % 24;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+        // Monta o texto do contador
+        const texto = `Tempo desde 21/02/2025: ${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
+
+        // Atualiza o conteúdo do elemento
+        document.getElementById('contador').textContent = texto;
+      }
+
+      // Atualiza o contador imediatamente e depois a cada segundo
+      atualizarContador();
+      setInterval(atualizarContador, 1000);
+    </script>
 </body>
 </html>
