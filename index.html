@@ -1,73 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Yago & Emily</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f8f8;
-            margin: 40px;
-            line-height: 1.6;
-            color: #333;
-        }
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #B22222;
-        }
-        .contador {
-            font-size: 1.1em;
-            color: #555;
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yago & Emily</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #2a003f, #4b004e);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #1c0b25;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(255, 0, 128, 0.3);
+      text-align: center;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(255, 192, 203, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #ff69b4;
+    }
+
+    .contador {
+      font-size: 1.1em;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      color: #ffb6c1;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+
+    strong {
+      color: #ffc0cb;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="yago-emily.jpg" alt="Yago e Emily">
-        <h1>Yago & Emily</h1>
-        <p><strong>Início:</strong> 21/02/2025</p>
-        <p>
-            Emily, <br><br>
-            Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em *Como Eu Era Antes de Você*.
-            Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.
-            Tem gente que passa. Você ficou. E se a vida fosse um livro, com certeza você seria minha parte favorita. <br>
-        </p>
-        <div class="contador" id="tempoJuntos"></div>
-    </div>
+  <div class="container">
+    <img src="yago-emily.jpg" alt="Yago e Emily">
+    <h1>Yago & Emily</h1>
+    <p><strong>Início:</strong> 21/02/2025</p>
+    <div class="contador" id="contador"></div>
+    <p>
+       Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em <strong>Como Eu Era Antes de Você</strong>.<br><br>
+      Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.<br><br>
+      Tem gente que passa. Você ficou. <br><br>
+      E se a vida fosse um livro, com certeza você seria minha parte favorita.
+    </p>
+  </div>
 
-    <script>
-        const inicio = new Date("2025-02-21T00:00:00");
-        function atualizaContador() {
-            const agora = new Date();
-            const diff = agora - inicio;
+  <script>
+    const inicio = new Date("2025-02-21T00:00:00");
 
-            const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutos = Math.floor((diff / (1000 * 60)) % 60);
-            const segundos = Math.floor((diff / 1000) % 60);
+    function atualizaContador() {
+      const agora = new Date();
+      const diff = agora - inicio;
 
-            document.getElementById("tempoJuntos").innerText =
-                `Estamos juntos há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos ❤️`;
-        }
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
 
-        setInterval(atualizaContador, 1000);
-        atualizaContador();
-    </script>
+      document.getElementById("contador").innerText =
+        `Estamos juntos há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos ❤️`;
+    }
+
+    setInterval(atualizaContador, 1000);
+    atualizaContador();
+  </script>
 </body>
 </html>
