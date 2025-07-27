@@ -1,111 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Yago & Emily</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #2a003f, #4b004e);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f8f8;
+      margin: 40px;
+      line-height: 1.6;
+      color: #333;
     }
-
     .container {
-      background-color: #1c0b25;
+      max-width: 700px;
+      margin: auto;
+      background: white;
       padding: 30px;
-      border-radius: 20px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 0 30px rgba(255, 0, 128, 0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
     }
-
     img {
-      width: 100%;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 25px rgba(255, 192, 203, 0.3);
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #ff69b4;
-    }
-
-    .contador {
-      font-size: 1.1em;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px 15px;
+      max-width: 100%;
       border-radius: 10px;
       margin-bottom: 20px;
-      color: #ffb6c1;
     }
-
-    p {
-      font-size: 1.1em;
-      line-height: 1.6;
+    h1 {
+      color: #B22222;
     }
-
-    audio {
-      margin-bottom: 20px;
-      width: 100%;
+    #contador {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #444;
     }
-
-    strong {
-      color: #ffc0cb;
+    iframe {
+      margin-top: 20px;
+      border-radius: 12px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <audio controls autoplay loop>
-      <source src="Entrelinhas(MP3_320K).mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio HTML5.
-    </audio>
+    <img src="yago-emily.jpg" alt="Yago e Emily" />
+    <h1>Yago & Emily</h1>
+    <p><strong>Início:</strong> 21/02/2025</p>
+    <p id="contador"></p>
 
-    <img src="yago-emily.jpg" alt="Yago e Emily">
-    <h1> Te amo</h1>
-    <div id="contador" class="contador"></div>
     <p>
-       Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em <strong>Como Eu Era Antes de Você</strong>.<br><br>
-      Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.<br><br>
-      Tem gente que passa. Você ficou.<br><br>
-      E se a vida fosse um livro, com certeza você seria minha parte favorita.
+      Emily, <br /><br />
+      Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em <em>Como Eu Era Antes de Você</em>.<br />
+      Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.<br />
+      Tem gente que passa. Você ficou. E se a vida fosse um livro, com certeza você seria minha parte favorita. 💖
     </p>
+
+    <!-- Player Spotify -->
+    <iframe style="border-radius:12px" 
+      src="https://open.spotify.com/embed/track/1Qo9f6GlALIdQegwygAPDH?utm_source=generator&theme=0" 
+      width="100%" height="80" frameBorder="0" allowfullscreen 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy"></iframe>
   </div>
 
   <script>
-    function atualizarContador() {
-      const inicio = new Date("2025-02-21T00:00:00");
+    const inicio = new Date("2025-02-21T00:00:00");
+    setInterval(() => {
       const agora = new Date();
-      let diff = agora - inicio;
+      const diff = agora - inicio;
 
-      if (diff < 0) {
-        document.getElementById("contador").innerText = "A data inicial ainda não chegou!";
-        return;
-      }
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
 
-      const segundosTotal = Math.floor(diff / 1000);
-      const meses = Math.floor(segundosTotal / (30 * 24 * 60 * 60));
-      const dias = Math.floor((segundosTotal % (30 * 24 * 60 * 60)) / (24 * 60 * 60));
-      const horas = Math.floor((segundosTotal % (24 * 60 * 60)) / 3600);
-      const minutos = Math.floor((segundosTotal % 3600) / 60);
-      const segundos = segundosTotal % 60;
-
-      document.getElementById("contador").innerText =
-        `${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos`;
-    }
-
-    atualizarContador();
-    setInterval(atualizarContador, 1000);
+      document.getElementById("contador").innerText = 
+        `Estamos juntos há ${dias} dias, ${horas}h ${minutos}min ${segundos}s 💞`;
+    }, 1000);
   </script>
 </body>
 </html>
