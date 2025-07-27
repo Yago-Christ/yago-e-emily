@@ -1,79 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title>Yago & Emily</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f8f8;
-      margin: 40px;
-      line-height: 1.6;
-      color: #333;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    img {
-      max-width: 100%;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      color: #B22222;
-    }
-    #contador {
-      font-size: 18px;
-      margin-top: 10px;
-      color: #444;
-    }
-    iframe {
-      margin-top: 20px;
-      border-radius: 12px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Yago & Emily</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            margin: 40px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #B22222;
+        }
+        .contador {
+            font-size: 1.1em;
+            color: #555;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <img src="yago-emily.jpg" alt="Yago e Emily" />
-    <h1>Yago & Emily</h1>
-    <p><strong>Início:</strong> 21/02/2025</p>
-    <p id="contador"></p>
+    <div class="container">
+        <img src="yago-emily.jpg" alt="Yago e Emily">
+        <h1>Yago & Emily</h1>
+        <p><strong>Início:</strong> 21/02/2025</p>
+        <p>
+            Emily, <br><br>
+            Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em *Como Eu Era Antes de Você*.
+            Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.
+            Tem gente que passa. Você ficou. E se a vida fosse um livro, com certeza você seria minha parte favorita. <br>
+        </p>
+        <div class="contador" id="tempoJuntos"></div>
+    </div>
 
-    <p>
-      Emily, <br /><br />
-      Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em <em>Como Eu Era Antes de Você</em>.<br />
-      Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.<br />
-      Tem gente que passa. Você ficou. E se a vida fosse um livro, com certeza você seria minha parte favorita. 💖
-    </p>
+    <script>
+        const inicio = new Date("2025-02-21T00:00:00");
+        function atualizaContador() {
+            const agora = new Date();
+            const diff = agora - inicio;
 
-    <!-- Player Spotify -->
-    <iframe style="border-radius:12px" 
-      src="https://open.spotify.com/embed/track/1Qo9f6GlALIdQegwygAPDH?utm_source=generator&theme=0" 
-      width="100%" height="80" frameBorder="0" allowfullscreen 
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-      loading="lazy"></iframe>
-  </div>
+            const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutos = Math.floor((diff / (1000 * 60)) % 60);
+            const segundos = Math.floor((diff / 1000) % 60);
 
-  <script>
-    const inicio = new Date("2025-02-21T00:00:00");
-    setInterval(() => {
-      const agora = new Date();
-      const diff = agora - inicio;
+            document.getElementById("tempoJuntos").innerText =
+                `Estamos juntos há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos ❤️`;
+        }
 
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutos = Math.floor((diff / (1000 * 60)) % 60);
-      const segundos = Math.floor((diff / 1000) % 60);
-
-      document.getElementById("contador").innerText = 
-        `Estamos juntos há ${dias} dias, ${horas}h ${minutos}min ${segundos}s 💞`;
-    }, 1000);
-  </script>
+        setInterval(atualizaContador, 1000);
+        atualizaContador();
+    </script>
 </body>
 </html>
