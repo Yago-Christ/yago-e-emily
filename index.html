@@ -28,11 +28,28 @@
       text-align: center;
     }
 
-    img {
+    .slideshow {
+      position: relative;
       width: 100%;
+      height: auto;
+      overflow: hidden;
       border-radius: 20px;
       margin-bottom: 20px;
       box-shadow: 0 10px 25px rgba(255, 192, 203, 0.3);
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      border-radius: 20px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      position: relative;
     }
 
     h1 {
@@ -63,12 +80,18 @@
 </head>
 <body>
   <div class="container">
-    <img src="yago-emily.jpg" alt="Yago e Emily">
+    <div class="slideshow">
+      <img src="foto1.jpg" class="slide active" alt="Yago e Emily 1">
+      <img src="foto2.jpg" class="slide" alt="Yago e Emily 2">
+      <img src="foto3.jpg" class="slide" alt="Yago e Emily 3">
+      <img src="foto4.jpg" class="slide" alt="Yago e Emily 4">
+      <img src="foto5.jpg" class="slide" alt="Yago e Emily 5">
+    </div>
     <h1>Yago & Emily</h1>
     <p><strong>Tudo começou em:</strong> 21/02/2025</p>
     <div class="contador" id="contador"></div>
     <p>
-       Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em <strong>Como Eu Era Antes de Você</strong>.<br><br>
+      Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em <strong>Como Eu Era Antes de Você</strong>.<br><br>
       Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.<br><br>
       Tem gente que passa. Você ficou. <br><br>
       E se a vida fosse um livro, com certeza você seria minha parte favorita.
@@ -76,6 +99,7 @@
   </div>
 
   <script>
+    // Contador de tempo
     const inicio = new Date("2025-02-21T00:00:00");
 
     function atualizaContador() {
@@ -93,6 +117,18 @@
 
     setInterval(atualizaContador, 1000);
     atualizaContador();
+
+    // Slide de imagens
+    let index = 0;
+    const slides = document.querySelectorAll(".slide");
+
+    function mostrarProximoSlide() {
+      slides[index].classList.remove("active");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("active");
+    }
+
+    setInterval(mostrarProximoSlide, 4000); // Troca a cada 4 segundos
   </script>
 </body>
 </html>
