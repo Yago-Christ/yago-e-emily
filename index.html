@@ -76,6 +76,23 @@
     strong {
       color: #ffc0cb;
     }
+
+    .btn-notificacao {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+
+    .btn-notificacao:hover {
+      background-color: #ff1493;
+    }
   </style>
 </head>
 <body>
@@ -96,6 +113,8 @@
       Tem gente que passa. Você ficou. <br><br>
       E se a vida fosse um livro, com certeza você seria minha parte favorita.
     </p>
+
+    <button class="btn-notificacao" onclick="enviarNotificacao()">Enviar notificação ❤️</button>
   </div>
 
   <script>
@@ -128,7 +147,37 @@
       slides[index].classList.add("active");
     }
 
-    setInterval(mostrarProximoSlide, 4000); // Troca a cada 4 segundos
+    setInterval(mostrarProximoSlide, 4000);
+
+    // Pushbullet - Enviar notificação
+    function enviarNotificacao() {
+      const accessToken = "o.4gvI6ckIPjBDztNHFB9cNfxKUcjS0mtJ"; // Substitua por um novo depois do teste
+      const titulo = "🌸 Notificação do Yago";
+      const mensagem = "O botão de amor foi clicado! 💌";
+
+      fetch("https://api.pushbullet.com/v2/pushes", {
+        method: "POST",
+        headers: {
+          "Access-Token": accessToken,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          type: "note",
+          title: titulo,
+          body: mensagem
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          alert("✅ Notificação enviada para seu celular!");
+        } else {
+          alert("❌ Erro ao enviar notificação.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro:", error);
+      });
+    }
   </script>
 </body>
 </html>
