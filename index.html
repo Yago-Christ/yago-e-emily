@@ -1,124 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yago & Emily</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #2a003f, #4b004e);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .container {
-      background-color: #1c0b25;
-      padding: 30px;
-      border-radius: 20px;
-      max-width: 600px;
-      width: 90%;
-      box-shadow: 0 0 30px rgba(255, 0, 128, 0.3);
-      text-align: center;
-    }
-
-    .slideshow {
-      position: relative;
-      width: 100%;
-      height: auto;
-      overflow: hidden;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 25px rgba(255, 192, 203, 0.3);
-    }
-
-    .slide {
-      position: absolute;
-      width: 100%;
-      height: auto;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      border-radius: 20px;
-    }
-
-    .slide.active {
-      opacity: 1;
-      position: relative;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #ff69b4;
-    }
-
-    .contador {
-      font-size: 1.1em;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      color: #ffb6c1;
-      font-weight: bold;
-    }
-
-    p {
-      font-size: 1.1em;
-      line-height: 1.6;
-    }
-
-    strong {
-      color: #ffc0cb;
-    }
-
-    .btn-notificacao {
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 1em;
-      border: none;
-      border-radius: 10px;
-      background-color: #ff69b4;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: 0.3s;
-    }
-
-    .btn-notificacao:hover {
-      background-color: #ff1493;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="slideshow">
-      <img src="yago-emily.jpg" class="slide active" alt="Yago e Emily 1">
-      <img src="yago-emily2.jpg" class="slide" alt="Yago e Emily 2">
-      <img src="yago-emily3.jpg" class="slide" alt="Yago e Emily 3">
-      <img src="yago-emily4.jpg" class="slide" alt="Yago e Emily 4">
-      <img src="yago-emily5.jpg" class="slide" alt="Yago e Emily 5">
-    </div>
-    <h1>Yago & Emily</h1>
-    <p><strong>Tudo começou em:</strong> 21/02/2025</p>
-    <div class="contador" id="contador"></div>
-    <p>
-      Você é como aquelas personagens que marcam a gente pra sempre, tipo a Lou em <strong>Como Eu Era Antes de Você</strong>.<br><br>
-      Desde que entrou na minha vida, tudo ficou mais bonito, mais leve, mais verdadeiro.<br><br>
-      Tem gente que passa. Você ficou. <br><br>
-      E se a vida fosse um livro, com certeza você seria minha parte favorita.
-    </p>
-
-    <button class="btn-notificacao" onclick="enviarNotificacao()">chamar ele ❤️</button>
-  </div>
-
-  <script>
-    // Contador de tempo
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Contador
     const inicio = new Date("2025-02-21T00:00:00");
 
     function atualizaContador() {
@@ -130,8 +12,10 @@
       const minutos = Math.floor((diff / (1000 * 60)) % 60);
       const segundos = Math.floor((diff / 1000) % 60);
 
-      document.getElementById("contador").innerText =
-        `Te amo há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos ❤️`;
+      const contador = document.getElementById("contador");
+      if (contador) {
+        contador.innerText = `Te amo há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos ❤️`;
+      }
     }
 
     setInterval(atualizaContador, 1000);
@@ -149,9 +33,9 @@
 
     setInterval(mostrarProximoSlide, 4000);
 
-    // Pushbullet - Enviar notificação
-    function enviarNotificacao() {
-      const accessToken = "o.4gvI6ckIPjBDztNHFB9cNfxKUcjS0mtJ"; // Substitua por um novo depois do teste
+    // Notificação Pushbullet
+    document.querySelector(".btn-notificacao").addEventListener("click", () => {
+      const accessToken = "o.IWXCk9EGij01IeY6unzB33nu1A7xOMOA"; 
       const titulo = "🌸 Notificação da gatinha";
       const mensagem = "O botão de amor foi clicado! 💌";
 
@@ -169,16 +53,15 @@
       })
       .then(response => {
         if (response.ok) {
-          alert(" Notificação enviada!\nAgora é só esperar a resposta do coração. 💞");
-");
+          alert("Notificação enviada!\nAgora é só esperar a resposta do coração. 💞");
         } else {
           alert("❌ Erro ao enviar notificação.");
         }
       })
       .catch(error => {
         console.error("Erro:", error);
+        alert("❌ Erro ao conectar com o Pushbullet.");
       });
-    }
-  </script>
-</body>
-</html>
+    });
+  });
+</script>
