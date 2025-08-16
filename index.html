@@ -103,10 +103,8 @@
   </div>
 
   <script>
-    const PUSHBULLET_TOKEN = "o.IWXCk9EGij01IeY6unzB33nu1A7xOMOA"; // seu token
-
     document.addEventListener("DOMContentLoaded", () => {
-      // ===== Contador =====
+      // Contador
       const inicio = new Date("2025-02-21T00:00:00");
       function atualizaContador() {
         const agora = new Date();
@@ -121,7 +119,7 @@
       setInterval(atualizaContador, 1000);
       atualizaContador();
 
-      // ===== Slide =====
+      // Slide
       let index = 0;
       const slides = document.querySelectorAll(".slide");
       function mostrarProximoSlide() {
@@ -131,81 +129,34 @@
       }
       setInterval(mostrarProximoSlide, 4000);
 
-      // ===== Botão que envia foto + localização =====
-      document.querySelector(".btn-notificacao").addEventListener("click", capturarFotoELocalizacao);
-    });
-
-    async function capturarFotoELocalizacao() {
-      try {
-        // 1️⃣ Captura da câmera
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.createElement("video");
-        video.srcObject = stream;
-        await video.play();
-
-        const canvas = document.createElement("canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
-        stream.getTracks().forEach(track => track.stop());
-
-        // 2️⃣ Localização
-        navigator.geolocation.getCurrentPosition(async pos => {
-          const lat = pos.coords.latitude;
-          const lon = pos.coords.longitude;
-          const linkMaps = `https://www.google.com/maps?q=${lat},${lon}`;
-
-          // 3️⃣ Upload da imagem para Pushbullet
-          const uploadReq = await fetch("https://api.pushbullet.com/v2/upload-request", {
-            method: "POST",
-            headers: {
-              "Access-Token": PUSHBULLET_TOKEN,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ file_name: "foto.png", file_type: "image/png" })
-          });
-
-          const uploadData = await uploadReq.json();
-
-          const formData = new FormData();
-          for (const [key, value] of Object.entries(uploadData.data)) {
-            formData.append(key, value);
+      // Pushbullet
+      document.querySelector(".btn-notificacao").addEventListener("click", () => {
+        const accessToken = "o.IWXCk9EGij01IeY6unzB33nu1A7xOMOA";
+        fetch("https://api.pushbullet.com/v2/pushes", {
+          method: "POST",
+          headers: {
+            "Access-Token": accessToken,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            type: "note",
+            title: "🌸 Notificação da gatinha",
+            body: "O botão de amor foi clicado! 💌"
+          })
+        })
+        .then(response => {
+          if (response.ok) {
+            alert("Notificação enviada!\nAgora é só esperar a resposta do coração. 💞");
+          } else {
+            alert("❌ Erro ao enviar notificação.");
           }
-          formData.append("file", blob);
-
-          await fetch(uploadData.upload_url, {
-            method: "POST",
-            body: formData
-          });
-
-          // 4️⃣ Envio do push
-          await fetch("https://api.pushbullet.com/v2/pushes", {
-            method: "POST",
-            headers: {
-              "Access-Token": PUSHBULLET_TOKEN,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              type: "file",
-              file_name: "foto.png",
-              file_type: "image/png",
-              file_url: uploadData.file_url,
-              body: `📍 Localização: ${linkMaps}`
-            })
-          });
-
-          alert("✅ Foto e localização enviadas para o Pushbullet!");
-        }, err => {
-          alert("Erro ao obter localização: " + err.message);
+        })
+        .catch(error => {
+          console.error("Erro:", error);
+          alert("❌ Erro ao conectar com o Pushbullet.");
         });
-
-      } catch (e) {
-        alert("Erro: " + e.message);
-      }
-    }
+      });
+    });
   </script>
 </body>
 </html>
